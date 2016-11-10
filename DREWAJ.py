@@ -4,10 +4,7 @@
 # The program takes an image gives you the option to crop it to a square, then frames it allowing you to choose a color
 
 
-from PIL import Image
-
-
-
+from PIL import Image, ImageDraw, ImageFont
 def squareCrop(picture):
     ''' Allows the user to crop the image to a 768x768 square '''
 
@@ -27,6 +24,15 @@ def squareCrop(picture):
     return newImg
     
     
+def textAdd(picture):
+    ''' Allows the user to write the image '''
+    # get a font
+    font = ImageFont.truetype(filename="xssnb.ttf", size = 30)
+    # get a drawing context
+    d = ImageDraw.Draw(picture)
+    message = input("Write a message to place on the photo: ")
+    d.text((50,50), message, font=font, fill=(255,255,255))
+    return picture
 
 def Frame(picture):
     ''' Allows the user to add a frame around the image '''
@@ -42,6 +48,7 @@ def Frame(picture):
 
 if __name__ == "__main__":
     
+    
     fileName = input("Enter the file name: ")
     picture = Image.open(fileName)
     width, height = picture.size # defines image size x,y
@@ -50,6 +57,9 @@ if __name__ == "__main__":
         choice = input("Oops! This is a large image would you like to crop it to a square? ").lower()
         if choice == "yes":
             picture = squareCrop(picture)
+        emblem = input("Sweet! How about a message on the image? ").lower()
+        if emblem == "yes":
+            picture = textAdd(picture)
     Frame(picture)
 
     
